@@ -342,19 +342,21 @@ def reinforce_run(training_data = []):
                 print('AVERAGE accepted score:', np.mean(accepted_scores))
                 print('MEDIAN score for accepted scores:', np.median(accepted_scores))
                 print(len(accepted_scores))
-                for data in game_memory:
+                for i in range(len(game_memory)):
+
                     # generate binary output for nn corresponding to action taken; [left, right, leftdash, right_dash]
                     output = gen_bin_output(len(action_space), action_space.index(data[1][0]))
-
+                    game_memory[i][1] = output
                     # saving our training data [prev_observation, action]
-                    training_data.append([data[0], output])
+                    # training_data.append([data[0], output])
+                training_data.append(game_memory)
 
             game_memory = []
             prev_observation = []
             score = 0
 
 
-        env.render()
+        # env.render()
 # reinforce_run()
 
 
@@ -365,9 +367,9 @@ except KeyboardInterrupt:
     # just in case you wanted to reference later
     print "SAVING DATA"
     training_data_save = np.array(training_data)
-    np.save('reinforcetraindata.npy',training_data_save)
+    np.save('reinforcetraindata2.npy',training_data_save)
 except:
     # just in case you wanted to reference later
     print "SOMETHING TERRIBLE BROKE: SAVING DATA"
     training_data_save = np.array(training_data)
-    np.save('reinforcetraindata2.npy',training_data_save)
+    np.save('reinforcetraindata_esave.npy',training_data_save)
